@@ -1,13 +1,22 @@
-.DS_Store
+# node
 node_modules
-.turbo
-*.log
+
+# nextjs
 .next
-dist
-dist-ssr
+out/
+build
+
+# misc
+.DS_Store
+.cache
+*.log
+
+# env
 *.local
 .env
-.cache
-server/dist
-public/dist
+
+# turbo
 .turbo
+
+# ts
+tsconfig.tsbuildinfo
