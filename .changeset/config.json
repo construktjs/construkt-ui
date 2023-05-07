@@ -1,10 +1,13 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@2.0.0/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "construktjs/construkt-ui" }
+  ],
   "commit": false,
   "fixed": [],
   "linked": [],
   "access": "public",
   "updateInternalDependencies": "patch",
-  "ignore": ["@acme/docs"]
+  "ignore": ["www"]
 }

@@ -13,32 +13,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2
-
-      - name: Setup pnpm 7
-        uses: pnpm/action-setup@v2
+        uses: actions/checkout@v3
         with:
-          version: 7
+          fetch-depth: 0
 
-      - name: Setup Node.js 16.x
-        uses: actions/setup-node@v2
+      - name: Setup pnpm 8
+        uses: pnpm/action-setup@v2.2.4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18
+          cache: "pnpm"
 
       - name: Install Dependencies
         run: pnpm i
 
+      - name: Build
+        run: pnpm build:components
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v1.4.1
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: pnpm release
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: node .github/changeset-version.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Send a Slack notification if a publish happens
-        if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
-        run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
