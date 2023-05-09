@@ -8,6 +8,8 @@ import "~/styles/globals.css"
 import type { Metadata } from "next"
 
 import { siteConfig } from "~/config/site"
+import SiteFooter from "~/components/site-footer"
+import SiteHeader from "~/components/site-header"
 
 export const metadata: Metadata = {
   metadataBase: new URL(absoluteUrl()),
@@ -73,15 +75,15 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "bg-background min-h-screen font-sans antialiased",
+          "min-h-screen bg-gray-50 font-sans antialiased dark:bg-gray-950",
           fontSans.variable
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="relative flex min-h-screen flex-col">
-            {/* <SiteHeader /> */}
+            <SiteHeader />
             <div className="flex-1">{children}</div>
-            {/* <SiteFooter /> */}
+            <SiteFooter />
           </div>
         </ThemeProvider>
         <Analytics />
