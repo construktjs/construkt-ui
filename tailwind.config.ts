@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
+import type { Config } from "tailwindcss"
+import { fontFamily } from "tailwindcss/defaultTheme"
 
 export default {
   darkMode: "class",
@@ -16,7 +16,21 @@ export default {
       fontFamily: {
         sans: ["--font-sans", ...fontFamily.sans],
       },
+      keyframes: {
+        "collapsible-down": {
+          from: { height: "0px" },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-up": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: "0px" },
+        },
+      },
+      animation: {
+        "collapsible-down": "collapsible-down 0.2s ease-out",
+        "collapsible-up": "collapsible-up 0.2s ease-out",
+      },
     },
   },
   plugins: [],
-} satisfies Config;
+} satisfies Config
