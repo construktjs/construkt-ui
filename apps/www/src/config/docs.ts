@@ -11,15 +11,11 @@ export const docsConfig: DocsConfig = {
       items: [
         {
           title: "Introduction",
-          href: "/docs/introduction",
+          href: "/docs",
         },
         {
           title: "Installation",
           href: "/docs/installation",
-        },
-        {
-          title: "Release Notes",
-          href: "/docs/release-notes",
         },
       ],
     },
@@ -33,10 +29,6 @@ export const docsConfig: DocsConfig = {
             {
               title: "Password",
               href: "/docs/components/input/password",
-            },
-            {
-              title: "Card",
-              href: "/docs/components/input/card",
             },
           ],
         },
