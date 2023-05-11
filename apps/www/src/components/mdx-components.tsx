@@ -4,8 +4,11 @@ import Image from "next/image"
 import { useMDXComponent } from "next-contentlayer/hooks"
 
 import { cn } from "~/lib/utils"
+import { Input } from "~/components/forms/input"
 
 const components = {
+  // TODO: cleanup with ComponentExample
+  Input,
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className={cn(

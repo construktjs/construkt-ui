@@ -5,6 +5,7 @@ import {
   defineNestedType,
   makeSource,
 } from "contentlayer/source-files"
+import GithubSlugger from "github-slugger"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
 import rehypePrettyCode from "rehype-pretty-code"
 import rehypeSlug from "rehype-slug"
@@ -67,6 +68,25 @@ export const Doc = defineDocumentType(() => ({
       type: "string",
       resolve: (doc) => doc._raw.flattenedPath.split("/").slice(1).join("/"),
     },
+    headings: {
+      type: "json",
+      resolve: async (doc) => {
+        const regXHeader = /\n(?<flag>#{1,6})\s+(?<content>.+)/g
+        const slugger = new GithubSlugger()
+        const headings = Array.from(doc.body.raw.matchAll(regXHeader)).map(
+          ({ groups }) => {
+            const flag = groups?.flag
+            const content = groups?.content
+            return {
+              level: flag.length,
+              value: content,
+              slug: content ? slugger.slug(content) : undefined,
+            }
+          }
+        )
+        return headings
+      },
+    },
   },
 }))
 
@@ -75,6 +95,19 @@ export default makeSource({
   documentTypes: [Doc],
   mdx: {
     remarkPlugins: [remarkGfm, codeImport],
+    rehypePlugins: [
+      rehypeSlug,
+      [
+        rehypePrettyCode,
+        {
+          onVisitLine(node) {
+            if (node.children.length === 0) {
+              node.children = [{ type: "text", value: " " }]
+            }
+          },
+        },
+      ],
+    ],
   },
   // mdx: {
   //   remarkPlugins: [remarkGfm, codeImport],

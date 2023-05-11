@@ -3,7 +3,10 @@ import { notFound } from "next/navigation"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { allDocs } from "contentlayer/generated"
 
+import { cn } from "~/lib/utils"
 import { Mdx } from "~/components/mdx-components"
+import DocsPager from "~/components/pager"
+import TOC from "~/components/toc"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import { Separator } from "~/components/ui/separator"
 
@@ -51,23 +54,47 @@ export default async function DocPage({ params }: DocPageProps) {
         </div>
         <Separator className="my-6" />
         <Mdx code={doc.body.code} />
+        <Separator className="my-6" />
+        <DocsPager doc={doc} />
       </div>
       <div className="hidden text-sm xl:block">
-        <div className="sticky top-14 h-[calc(100vh-3.5rem)]">
-          <ScrollArea className="pb-6">
-            <ul>
-              <li>
-                <a href="#introduction">Introduction</a>
-              </li>
-              <li>
-                <a href="#introduction">Introduction</a>
-              </li>
-              <li>
-                <a href="#introduction">Introduction</a>
-              </li>
-            </ul>
+        <div className="sticky top-14">
+          <ScrollArea className="-mt-6 pt-6 lg:-mt-8 lg:pt-8">
+            <div className="space-y-2">
+              <p className="font-medium">On This Page</p>
+              {/* <ul className="mt-2 space-y-0.5">
+              {doc.headings.map((heading: { level: number; value: string }) => (
+                <li key={heading.value}>
+                  <Link
+                    data-level={heading.level}
+                    href={`/docs/${params.slug?.join("/") || ""}#${
+                      heading.value
+                    }`}
+                    className={cn(
+                      "font-medium text-gray-700 data-[level='2']:pl-2 data-[level='3']:pl-4 dark:text-gray-400"
+                    )}
+                  >
+                    {heading.value}
+                  </Link>
+                </li>
+              ))}
+            </ul> */}
+              <TOC
+                items={doc.headings.map(
+                  (heading: {
+                    level: number
+                    value: string
+                    slug: string | undefined
+                  }) => ({
+                    url: `#${heading.slug}`,
+                    title: heading.value,
+                    level: heading.level,
+                  })
+                )}
+              />
+            </div>
           </ScrollArea>
-          <Separator className="my-2" />
+          <Separator className="my-6" />
           <div className="text-xs font-medium">
             <Link href="/">contribute</Link>
           </div>
