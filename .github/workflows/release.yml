@@ -17,14 +17,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm 8
+      - name: Use PNPM
         uses: pnpm/action-setup@v2.2.4
 
-      - name: Setup Node.js 18
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: "pnpm"
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
         run: pnpm i
@@ -32,7 +45,7 @@ jobs:
       - name: Build
         run: pnpm build:components
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1.4.1
         with:
@@ -41,4 +54,3 @@ jobs:
           version: node .github/changeset-version.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
