@@ -1,14 +1,15 @@
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ChevronRightIcon } from "@heroicons/react/20/solid"
 import { allDocs } from "contentlayer/generated"
 
-import { cn } from "~/lib/utils"
 import { Mdx } from "~/components/mdx-components"
 import DocsPager from "~/components/pager"
-import TOC from "~/components/toc"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import { Separator } from "~/components/ui/separator"
+
+const TOC = dynamic(() => import("~/components/toc"), { ssr: false })
 
 type DocPageProps = {
   params: {

@@ -116,11 +116,11 @@ function DocsSidebarNavItems({
       )}
     >
       {depth > 0 && (
-        <div className="absolute inset-y-1 left-0 w-px bg-gray-300 dark:bg-gray-700" />
+        <div className="absolute inset-y-1 left-0 w-px bg-gray-300 dark:bg-gray-800" />
       )}
       {items.map((item, index) =>
         item.items?.length ? (
-          <Collapsible key={index} asChild>
+          <Collapsible key={index} defaultOpen asChild>
             <li>
               <CollapsibleTrigger asChild>
                 <SidebarLink item={item} pathname={pathname} withChevron />
