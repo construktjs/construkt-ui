@@ -77,6 +77,7 @@ const SidebarLink = forwardRef<
     </span>
   )
 })
+SidebarLink.displayName = "SidebarLink"
 
 export default function SidebarNav({ items }: SidebarNavProps) {
   const pathname = usePathname()
