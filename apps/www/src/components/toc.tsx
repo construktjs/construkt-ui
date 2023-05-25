@@ -56,8 +56,6 @@ export default function TOC({ items }: TOCProps) {
 
   const activeId = useActiveItem(itemIds)
 
-  if (typeof window === "undefined") return null
-
   return (
     <ul className="space-y-0.5">
       {items.map((item) => (

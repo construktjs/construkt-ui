@@ -20,13 +20,15 @@ type SidebarNavProps = {
 }
 
 const sidebarLinkVariants = cva(
-  "group inline-flex w-full items-center rounded-md px-2 py-1.5 transition hover:bg-gray-100 dark:hover:bg-gray-900 justify-between",
+  "group inline-flex w-full items-center rounded-md px-2 py-1.5 transition justify-between",
   {
     variants: {
       variant: {
         disabled: "cursor-not-allowed opacity-60",
-        active: "font-medium",
-        inactive: "text-gray-700 dark:text-gray-400",
+        active:
+          "font-medium bg-sky-100 dark:bg-sky-900/30 text-sky-500 dark:text-sky-400",
+        inactive:
+          "text-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900",
       },
     },
     defaultVariants: {

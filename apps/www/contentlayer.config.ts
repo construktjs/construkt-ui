@@ -6,8 +6,12 @@ import {
   makeSource,
 } from "contentlayer/source-files"
 import GithubSlugger from "github-slugger"
-import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import rehypePrettyCode from "rehype-pretty-code"
+import rehypeAutolinkHeadings, {
+  type Options as AutolinkOptions,
+} from "rehype-autolink-headings"
+import rehypePrettyCode, {
+  type Options as PrettyCodeOptions,
+} from "rehype-pretty-code"
 import rehypeSlug from "rehype-slug"
 import { codeImport } from "remark-code-import"
 import remarkGfm from "remark-gfm"
@@ -78,7 +82,7 @@ export const Doc = defineDocumentType(() => ({
             const flag = groups?.flag
             const content = groups?.content
             return {
-              level: flag.length,
+              level: flag?.length ?? 0,
               value: content,
               slug: content ? slugger.slug(content) : undefined,
             }
@@ -105,7 +109,16 @@ export default makeSource({
               node.children = [{ type: "text", value: " " }]
             }
           },
-        },
+        } satisfies Partial<PrettyCodeOptions>,
+      ],
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            className: ["subheading-anchor"],
+            ariaLabel: "Link to section",
+          },
+        } satisfies AutolinkOptions,
       ],
     ],
   },

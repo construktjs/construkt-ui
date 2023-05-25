@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ChevronRightIcon } from "@heroicons/react/20/solid"
+import { ArrowLongRightIcon, ChevronRightIcon } from "@heroicons/react/20/solid"
 import { allDocs } from "contentlayer/generated"
 
 import { Mdx } from "~/components/mdx-components"
@@ -9,7 +9,7 @@ import DocsPager from "~/components/pager"
 import { ScrollArea } from "~/components/ui/scroll-area"
 import { Separator } from "~/components/ui/separator"
 
-const TOC = dynamic(() => import("~/components/toc"), { ssr: false })
+const TOC = dynamic(() => import("~/components/toc"))
 
 type DocPageProps = {
   params: {
@@ -96,8 +96,16 @@ export default async function DocPage({ params }: DocPageProps) {
             </div>
           </ScrollArea>
           <Separator className="my-6" />
-          <div className="text-xs font-medium">
-            <Link href="/">contribute</Link>
+          <div className="flex flex-col items-start text-xs font-medium">
+            <Link
+              href={`https://github.com/construktjs/construkt-ui/blob/main/apps/www/src/content${doc.slug}.mdx`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 text-gray-600 dark:text-gray-400"
+            >
+              <span>Edit this page on GitHub</span>
+              <ArrowLongRightIcon className="h-3" />
+            </Link>
           </div>
         </div>
       </div>
